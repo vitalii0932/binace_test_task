@@ -3,10 +3,12 @@ import com.example.binance_task.dto.SymbolResponse;
 import com.example.binance_task.model.Price;
 import com.example.binance_task.model.Symbol;
 import com.example.binance_task.repository.SymbolRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,5 +49,19 @@ public class SymbolService {
                 log.error("Symbol: {}, Price: {}, Exception: {}", symbolData.getSymbol(), symbolData.getIndexPrice(), e.getMessage());
             }
         }
+    }
+
+    /**
+     * save symbol in db
+     *
+     * @param symbolName - symbol name
+     * @return saved Symbol
+     */
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Retryable(maxAttempts = 5)
+    public Symbol save(String symbolName) {
+        var symbol = new Symbol();
+        symbol.setSymbol(symbolName);
+        return symbolRepository.save(symbol);
     }
 }
