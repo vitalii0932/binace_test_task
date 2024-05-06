@@ -58,4 +58,17 @@ public class PriceService {
     public Price save(Price price) {
         return priceRepository.save(price);
     }
+
+    /**
+     * clear price db to some time
+     *
+     * @param upTo - time
+     */
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Retryable(maxAttempts = 5)
+    public void clear(LocalDateTime upTo) {
+        priceRepository.deleteAll(
+                priceRepository.findAllByTimeLessThan(upTo)
+        );
+    }
 }
