@@ -21,4 +21,31 @@ public class SymbolService {
 
     private final SymbolRepository symbolRepository;
     private final PriceService priceService;
+
+    /**
+     * save symbols data from binance
+     *
+     * @param symbolsData - list of symbols data
+     */
+    public void saveSymbolsData(List<SymbolResponse> symbolsData) {
+        for (var symbolData : symbolsData) {
+            try {
+                var symbol = get(symbolData.getSymbol());
+
+                Price price = new Price();
+
+                price.setSymbol(symbol);
+                price.setMarkPrice(symbolData.getMarkPrice());
+                price.setIndexPrice(symbolData.getIndexPrice());
+                price.setEstimatedSettlePrice(symbolData.getEstimatedSettlePrice());
+                price.setInterestRate(symbolData.getInterestRate());
+                price.setLastFundingRate(symbolData.getLastFundingRate());
+                price.setTime(LocalDateTime.now());
+
+                priceService.save(price);
+            } catch (Exception e) {
+                log.error("Symbol: {}, Price: {}, Exception: {}", symbolData.getSymbol(), symbolData.getIndexPrice(), e.getMessage());
+            }
+        }
+    }
 }
