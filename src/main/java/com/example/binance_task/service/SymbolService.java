@@ -64,4 +64,19 @@ public class SymbolService {
         symbol.setSymbol(symbolName);
         return symbolRepository.save(symbol);
     }
+
+    /**
+     * get symbol by its name
+     *
+     * @param symbolName - symbol name
+     * @return Symbol
+     */
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Retryable(maxAttempts = 5)
+    public Symbol get(String symbolName) {
+        if (symbolRepository.getBySymbol(symbolName).isEmpty()) {
+            return save(symbolName);
+        }
+        return symbolRepository.getBySymbol(symbolName).get();
+    }
 }
