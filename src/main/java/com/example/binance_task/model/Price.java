@@ -6,6 +6,9 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * model for symbols prices history
+ */
 @Data
 @Entity
 @IdClass(PriceId.class)
