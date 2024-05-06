@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+/**
+ * symbol response from binance
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SymbolResponse {
