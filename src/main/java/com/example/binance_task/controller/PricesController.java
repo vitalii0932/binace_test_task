@@ -1,6 +1,9 @@
 package com.example.binance_task.controller;
 
 import com.example.binance_task.service.PriceService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,11 @@ public class PricesController {
      * @param symbolName - symbol name
      * @return a response with body with some prices or exception text
      */
+    @Operation(summary = "Get price for some symbol")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully obtaining a price."),
+            @ApiResponse(responseCode = "403", description = "Error during price retrieval.")
+    })
     @GetMapping("/get_price")
     public ResponseEntity<?> getPriceBySymbol(@RequestParam(name = "symbol") String symbolName) {
         try {
