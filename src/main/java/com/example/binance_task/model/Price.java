@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * model for symbols prices history
@@ -30,4 +31,22 @@ public class Price {
     private BigDecimal lastFundingRate;
     @Column(precision = 15, scale = 7)
     private BigDecimal interestRate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Price otherPrice = (Price) o;
+        return Objects.equals(symbol, otherPrice.symbol) &&
+                Objects.equals(markPrice.doubleValue(), otherPrice.markPrice.doubleValue()) &&
+                Objects.equals(indexPrice.doubleValue(), otherPrice.indexPrice.doubleValue()) &&
+                Objects.equals(estimatedSettlePrice.doubleValue(), otherPrice.estimatedSettlePrice.doubleValue()) &&
+                Objects.equals(lastFundingRate.doubleValue(), otherPrice.lastFundingRate.doubleValue()) &&
+                Objects.equals(interestRate.doubleValue(), otherPrice.interestRate.doubleValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(symbol, markPrice, indexPrice, estimatedSettlePrice, lastFundingRate, interestRate);
+    }
 }
