@@ -56,8 +56,6 @@ public class PriceRepositoryTests {
         testPrice.setLastFundingRate(BigDecimal.ONE);
         testPrice.setSymbol(testSymbol);
         testPrice.setTime(LocalDateTime.now());
-
-        testPrice = priceRepository.save(testPrice);
     }
 
     /**
@@ -118,6 +116,8 @@ public class PriceRepositoryTests {
     @Test
     @Transactional
     public void deleteTest() {
+        priceRepository.save(testPrice);
+
         var countBeforeDeleting = priceRepository.count();
 
         priceRepository.delete(testPrice);
@@ -132,6 +132,8 @@ public class PriceRepositoryTests {
      */
     @Test
     public void findAllByTimeLessThanTest() {
+        priceRepository.save(testPrice);
+
         LocalDateTime currentTime = LocalDateTime.now();
         var responseList = priceRepository.findAllByTimeLessThan(currentTime);
 
@@ -147,6 +149,8 @@ public class PriceRepositoryTests {
      */
     @Test
     public void findFirstBySymbolOrderByTimeDescTest() {
+        priceRepository.save(testPrice);
+
         var response = priceRepository.findFirstBySymbolOrderByTimeDesc(testSymbol).orElseThrow(
                 () -> new RuntimeException("Symbol not found exception"));
 

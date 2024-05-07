@@ -13,8 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Objects;
 
-
-
 /**
  * SymbolRepo tests
  */
