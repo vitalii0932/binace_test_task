@@ -59,7 +59,10 @@ public class SymbolService {
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Retryable(maxAttempts = 5)
-    public Symbol save(String symbolName) {
+    public Symbol save(String symbolName) throws RuntimeException {
+        if (symbolName == null || symbolName.isEmpty()) {
+            throw new RuntimeException("Symbol name is empty");
+        }
         var symbol = new Symbol();
         symbol.setSymbol(symbolName);
         return symbolRepository.save(symbol);
