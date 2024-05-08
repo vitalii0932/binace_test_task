@@ -1,4 +1,4 @@
-# binace_test_task
+# binance_test_task
 
 ## Опис проекту: 
 
