@@ -4,6 +4,7 @@ import com.example.binance_task.dto.SymbolResponse;
 import com.example.binance_task.service.SymbolService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -21,6 +22,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Slf4j
 @EnableScheduling
+@Profile("!test")
 public class BinanceFetcherJob {
 
     private final SymbolService symbolService;
